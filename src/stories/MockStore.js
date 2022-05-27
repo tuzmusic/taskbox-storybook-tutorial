@@ -18,12 +18,12 @@ export const MockedState = {
   error: null
 }
 
-export const MockStore = ({ taskboxState, children }) => {
+export const MockStore = ({ stateOverride = {}, children, story }) => {
   const store = configureStore({
     reducer: {
       taskbox: createSlice({
         name: 'taskbox',
-        initialState: taskboxState,
+        initialState: { ...MockedState, ...stateOverride },
         reducers: {
           updateTaskState: (state, action) => {
             const { id, newTaskState } = action.payload;
@@ -37,5 +37,5 @@ export const MockStore = ({ taskboxState, children }) => {
     }
   })
 
-  return <Provider store={store}>{children}</Provider>
+  return <Provider store={store}>{story?.call({}) || children}</Provider>
 }
