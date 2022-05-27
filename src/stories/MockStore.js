@@ -1,6 +1,8 @@
 import * as TaskStories from "../components/Task.stories";
 import { configureStore, createSlice } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
+import { TasksSlice } from "../lib/store";
+import { create } from "react-test-renderer";
 
 const task = TaskStories.Default.args.task;
 export const mockTasks = [
@@ -18,22 +20,17 @@ export const MockedState = {
   error: null
 }
 
+const configurableSlice = stateOverride => ({
+  ...TasksSlice,
+  initialState: { ...TasksSlice.getInitialState(), tasks: mockTasks, ...stateOverride }
+})
+
 export const MockStore = ({ stateOverride = {}, children, story }) => {
+  const configuredSlice = configurableSlice(stateOverride)
+
   const store = configureStore({
     reducer: {
-      taskbox: createSlice({
-        name: 'taskbox',
-        initialState: { ...MockedState, ...stateOverride },
-        reducers: {
-          updateTaskState: (state, action) => {
-            const { id, newTaskState } = action.payload;
-            const task = state.tasks.findIndex((task) => task.id === id);
-            if (task >= 0) {
-              state.tasks[task].state = newTaskState;
-            }
-          },
-        },
-      }).reducer,
+      taskbox: createSlice(configuredSlice).reducer,
     }
   })
 

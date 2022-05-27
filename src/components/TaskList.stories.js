@@ -12,7 +12,7 @@ const Template = args => <TaskList {...args} />;
 
 export const Default = {
   args: {
-    tasks: mockTasks,
+    // tasks: mockTasks,
   },
   decorators: [
     story => <MockStore story={story}/>
