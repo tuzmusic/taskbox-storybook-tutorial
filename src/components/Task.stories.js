@@ -1,27 +1,29 @@
-import Task from "./Task";
+import Task from './Task';
 
 export default {
   component: Task,
-  title: "Task"
-}
+  title: 'Task',
+};
 
-const Template = args => <Task {...args}/>
+const Template = args => <Task {...args} />;
 
-export const Default = Template.bind({})
+export const Default = Template.bind({});
 Default.args = {
   task: {
-    id: "1",
-    title: "Test Task",
-    state: "TASK_INBOX",
+    id: '1',
+    title: 'Test Task',
+    state: 'TASK_INBOX',
     updatedAt: new Date(2021, 0, 1, 9, 0),
-  }
-}
+  },
+};
 
-export const Pinned = Template.bind({})
+export const Pinned = Template.bind({});
 Pinned.args = {
-  ...Default.args,
-  state: "TASK_PINNED"
-}
+  task: {
+    ...Default.args.task,
+    state: 'TASK_PINNED',
+  },
+};
 
 export const Archived = Template.bind({});
 Archived.args = {
